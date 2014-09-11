@@ -9,6 +9,7 @@ module.exports = function(grunt) {
     });
 
     // A very basic default task.
-    grunt.registerTask('default', ['bower:install']);
+    grunt.registerTask('prepare', ['bower:install']);
+    grunt.registerTask('default', []);
 };
 
