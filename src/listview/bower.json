@@ -15,7 +15,6 @@
     "tests"
   ],
   "dependencies": {
-    "angularjs": "~1.2.24",
     "ng-grid": "~2.0.13",
     "ng-table": "~0.3.3",
     "footable": "~2.0.1",
