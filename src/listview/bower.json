@@ -18,6 +18,7 @@
     "ng-grid": "~2.0.13",
     "ng-table": "~0.3.3",
     "footable": "~2.0.1",
-    "DataTables": "~1.10.2"
+    "DataTables": "~1.10.2",
+    "requirejs": "~2.1.15"
   }
 }
