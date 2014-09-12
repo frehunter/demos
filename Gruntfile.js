@@ -4,7 +4,7 @@ module.exports = function(grunt) {
 
     var projects = grunt.file.expand('src/*/Gruntfile.js');
     var prepareTasks = [];
-    var defaultTasks = [];
+    var buildTasks = [];
     var installTasks = [];
 
     grunt.task.registerMultiTask('setBase', function () {
@@ -21,20 +21,22 @@ module.exports = function(grunt) {
         grunt.config.set(['shell', name + '.default', 'command'], 'grunt --builddir=' + path.join(buildDir, name) + ' --installdir=' + path.join(installDir, name));
         grunt.config.set(['shell', name + '.install', 'command'], 'grunt install --builddir=' + path.join(buildDir, name) + ' --installdir=' + path.join(installDir, name));
         grunt.config.set(['npm-install', name], {});
-        grunt.config.set(['setBase', name, 'base'], 'src/' + name);
+        grunt.config.set(['setBase', name, 'base'], path.join(process.cwd(), 'src', name));
 
         prepareTasks.push('setBase:' + name);
         prepareTasks.push('shell:' + name + '.prepare');
 
-        defaultTasks.push('setBase:' + name);
-        defaultTasks.push('shell:' + name + '.default');
+        buildTasks.push('setBase:' + name);
+        buildTasks.push('shell:' + name + '.default');
 
         installTasks.push('setBase:' + name);
         installTasks.push('shell:' + name + '.install');
     }
 
     grunt.registerTask('install', installTasks);
-    grunt.registerTask('default', defaultTasks);
+    grunt.registerTask('build', buildTasks);
     grunt.registerTask('prepare', prepareTasks);
+    grunt.registerTask('all', ['prepare', 'build', 'install']);
+    grunt.registerTask('default', 'build');
 };
 
