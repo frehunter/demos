@@ -1,9 +1,9 @@
 <!DOCTYPE>
-<html>
+<html ng-app="ngGridDemoApp">
 <head>
-    <script data-main="scripts/nggrid.demo" src="scripts/lib/requirejs/require.js"></script>
-    <script src="scripts/config.js"></script>
-    <link rel="stylesheet" type="text/css" href="scripts/lib/ng-grid/ng-grid.css"></link>
+    <script data-main="js/nggrid.demo" src="js/lib/requirejs/require.js"></script>
+    <script src="js/config.js"></script>
+    <link rel="stylesheet" type="text/css" href="js/lib/ng-grid/ng-grid.css"></link>
     <style>
     .gridStyle {
         border: 1px solid rgb(212,212,212);
@@ -13,9 +13,7 @@
     </style>
 </head>
 <body>
-    <div ng-controller="MyCtrl">
-        <div class="gridStyle" ng-grid="gridOptions">
-        </div>
+    <div ng-view>
     </div>
 </body>
 </html>

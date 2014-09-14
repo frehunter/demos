@@ -37,6 +37,8 @@ module.exports = function(grunt) {
     grunt.registerTask('build', buildTasks);
     grunt.registerTask('prepare', prepareTasks);
     grunt.registerTask('all', ['prepare', 'build', 'install']);
+    grunt.config.set(['watch', 'files'], 'src/**/*');
+    grunt.config.set(['watch', 'tasks'], ['build', 'install']);
     grunt.registerTask('default', 'build');
 };
 
