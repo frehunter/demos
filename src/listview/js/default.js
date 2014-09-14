@@ -12,6 +12,10 @@ require(['angular'], function (angular) {
                 url: 'nggrid.html',
                 selected: true,
             },
+            {
+                name: 'ng-table',
+                url: 'ngtable.html',
+            },
         ];
 
         $scope.features = [

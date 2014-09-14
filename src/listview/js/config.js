@@ -1,14 +1,15 @@
 require.config({
     '*': {
-        'css': 'requirecss' // or whatever the path to require-css is
+        'css': 'css' // or whatever the path to require-css is
     },
     baseUrl: 'js',
     paths: {
-        ngGrid: 'lib/ng-grid/ng-grid',
         jQuery: 'lib/jquery/jquery',
+        ngGrid: 'lib/ng-grid/ng-grid',
+        ngTable: 'lib/ng-table/ng-table',
         angular: 'lib/angular/angular',
         ngRoute: 'lib/angular-route/angular-route',
-        requirecss: 'lib/require-css/css.js',
+        css: 'lib/require-css/css',
     },
     shim: {
         angular: {
@@ -20,6 +21,9 @@ require.config({
         },
         ngGrid: {
             deps: ['jQuery', 'angular'],
+        },
+        ngTable: {
+            deps: ['angular', 'css!lib/ng-table/ng-table.css'],
         },
     }
 });
