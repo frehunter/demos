@@ -1,7 +1,30 @@
-<!DOCTYPE>
-<html>
-<body>
-<a href="nggrid.html" target="_self">ng-grid</a>
+<!DOCTYPE html>
+<html ng-app="listViewDemoApp">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script data-main="js/default" src="js/lib/requirejs/require.js"></script>
+    <script src="js/config.js"></script>
+    <link rel="stylesheet" type="text/css" href="js/lib/bootstrap/bootstrap.css"></link>
+    <style>
+    </style>
+</head>
+<body ng-controller="listViewDemoController">
+    <div class="container-fluid">
+        <div class="row" style="padding: 10px 0px">
+            <div class="col-xs-1" ng-repeat="tableControl in tableControls">
+                <button type="button" ng-click="selectTableControl(tableControl)" class="btn btn-lg" ng-class="{true: 'btn-primary', false: 'btn-success'}[!!tableControl.selected]">{{tableControl.name}}</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2">
+                <button ng-repeat="feature in features" ng-click="selectFeature(feature)" type="button" class="btn btn-block" ng-class="{true: 'btn-primary', false: 'btn-success'}[!!feature.selected]">{{feature.name}}</button>
+            </div>
+            <div class="col-xs-10">
+                <iframe ng-src="{{demoUrl}}" style="width: 100%; height: 600px; border: 0px"></iframe>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
+
 

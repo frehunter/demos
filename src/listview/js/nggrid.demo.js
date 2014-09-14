@@ -3,6 +3,16 @@
 window.name = "NG_DEFER_BOOTSTRAP!";
 
 require(['angular', 'ngRoute', 'ngGrid'], function (angular) {
+    function buildUpTemplate(controllers) {
+        var stringBuilder = [];
+
+        for (var i in controllers) {
+            stringBuilder.push('<div ng-controller="' + controllers[i] + '"><div>{{title}}</div><div class="gridStyle" ng-grid="gridOptions"></div></div>');
+        }
+
+        return stringBuilder.join('\r');
+    }
+
     var testData = [
             {name: "Moroni", age: 50},
             {name: "Tiancum", age: 43},
@@ -32,6 +42,7 @@ require(['angular', 'ngRoute', 'ngGrid'], function (angular) {
 
     app.controller('singleSelectionController', function($scope) {
         $scope.testData = testData;
+        $scope.title = 'Single selection';
         $scope.gridOptions = {
             data: 'testData',
             multiSelect: false,
@@ -40,6 +51,7 @@ require(['angular', 'ngRoute', 'ngGrid'], function (angular) {
 
     app.controller('multipleSelectionController', function($scope) {
         $scope.testData = testData;
+        $scope.title = 'Multiple selection';
         $scope.gridOptions = {
             data: 'testData',
             multiSelect: true,
@@ -48,6 +60,7 @@ require(['angular', 'ngRoute', 'ngGrid'], function (angular) {
 
     app.controller('cellSelectionController', function($scope) {
         $scope.testData = testData;
+        $scope.title = 'Cell selection';
         $scope.gridOptions = {
             data: 'testData',
             multiSelect: false,
@@ -57,11 +70,7 @@ require(['angular', 'ngRoute', 'ngGrid'], function (angular) {
     });
 
     app.run(['$templateCache', function ($templateCache) {
-        $templateCache.put('selection.html',
-            '<div>Single selection</div><div class="gridStyle" ng-controller="singleSelectionController" ng-grid="gridOptions"></div>'
-            + '<div>Multiple selection</div><div class="gridStyle" ng-controller="multipleSelectionController" ng-grid="gridOptions"></div>'
-            + '<div>Cell selection</div><div class="gridStyle" ng-controller="cellSelectionController" ng-grid="gridOptions"></div>'
-        );
+        $templateCache.put('selection.html', buildUpTemplate(['singleSelectionController', 'multipleSelectionController', 'cellSelectionController']));
     }]);
 
     app.controller('cellTemplateController', function($scope) {
@@ -86,10 +95,7 @@ require(['angular', 'ngRoute', 'ngGrid'], function (angular) {
     });
 
     app.run(['$templateCache', function ($templateCache) {
-        $templateCache.put('template.html',
-            '<div>Single selection</div><div class="gridStyle" ng-controller="cellTemplateController" ng-grid="gridOptions"></div>'
-            + '<div>Multiple selection</div><div class="gridStyle" ng-controller="rowTemplateController" ng-grid="gridOptions"></div>'
-        );
+        $templateCache.put('template.html', buildUpTemplate(['cellTemplateController', 'rowTemplateController']));
     }]);
 
     angular.bootstrap(document, ['ngGridDemoApp']);
