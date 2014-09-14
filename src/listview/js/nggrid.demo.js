@@ -7,7 +7,7 @@ require(['angular', 'ngRoute', 'ngGrid'], function (angular) {
         var stringBuilder = [];
 
         for (var i in controllers) {
-            stringBuilder.push('<div ng-controller="' + controllers[i] + '"><div>{{title}}</div><div class="gridStyle" ng-grid="gridOptions"></div></div>');
+            stringBuilder.push('<div ng-controller="' + controllers[i] + '"><div>{{title}}</div><div><button ng-repeat="command in commands" ng-click="command.command()">{{command.name}}</button></div><div class="gridStyle" ng-grid="gridOptions"></div></div>');
         }
 
         return stringBuilder.join('\r');
@@ -33,6 +33,16 @@ require(['angular', 'ngRoute', 'ngGrid'], function (angular) {
         .when('/template',
         {
             templateUrl: 'template.html',
+            controller: 'containerController'
+        })
+        .when('/datasource',
+        {
+            templateUrl: 'datasource.html',
+            controller: 'containerController'
+        })
+        .when('/inlineeditor',
+        {
+            templateUrl: 'inlineeditor.html',
             controller: 'containerController'
         });
     }]);
@@ -75,6 +85,7 @@ require(['angular', 'ngRoute', 'ngGrid'], function (angular) {
 
     app.controller('cellTemplateController', function($scope) {
         $scope.testData = testData;
+        $scope.title = 'Cell template';
         $scope.gridOptions = {
             data: 'testData',
             multiSelect: false,
@@ -86,6 +97,7 @@ require(['angular', 'ngRoute', 'ngGrid'], function (angular) {
 
     app.controller('rowTemplateController', function($scope) {
         $scope.testData = testData;
+        $scope.title = 'Row template';
         $scope.gridOptions = {
             data: 'testData',
             multiSelect: false,
@@ -96,6 +108,83 @@ require(['angular', 'ngRoute', 'ngGrid'], function (angular) {
 
     app.run(['$templateCache', function ($templateCache) {
         $templateCache.put('template.html', buildUpTemplate(['cellTemplateController', 'rowTemplateController']));
+    }]);
+
+    app.controller('modifyController', function($scope) {
+        $scope.testData = testData;
+        $scope.title = 'Modify data source';
+        $scope.commands = [
+            {
+                name: 'modify first row',
+                command: function () {
+                    $scope.testData[0].name = 'changed';
+                },
+            },
+            {
+                name: 'remove first row',
+                command: function () {
+                    $scope.testData.splice(0, 1);
+                },
+            },
+            {
+                name: 'add first row',
+                command: function () {
+                    $scope.testData.unshift({ name: 'Ricky', age: 25 });
+                },
+            },
+        ];
+        $scope.gridOptions = {
+            data: 'testData',
+            multiSelect: false,
+        };
+    });
+
+    app.run(['$templateCache', function ($templateCache) {
+        $templateCache.put('datasource.html', buildUpTemplate(['modifyController']));
+    }]);
+
+    app.controller('simpleInlineEditorController', function($scope) {
+        $scope.testData = testData;
+        $scope.title = 'edit cell';
+        $scope.gridOptions = {
+            data: 'testData',
+            multiSelect: false,
+            columnDefs: [
+                {field: 'name', displayName: 'Name', enableCellEdit: true},
+                {field:'age', displayName:'Age', enableCellEdit: true}
+            ]
+        };
+    });
+
+    app.controller('focusInlineEditorController', function($scope) {
+        $scope.testData = testData;
+        $scope.title = 'edit cell on focus';
+        $scope.gridOptions = {
+            data: 'testData',
+            multiSelect: false,
+            enableCellEditOnFocus: true,
+            columnDefs: [
+                {field: 'name', displayName: 'Name', enableCellEdit: true},
+                {field:'age', displayName:'Age', enableCellEdit: true}
+            ]
+        };
+    });
+
+    app.controller('templateInlineEditorController', function($scope) {
+        $scope.testData = testData;
+        $scope.title = 'edit cell with template';
+        $scope.gridOptions = {
+            data: 'testData',
+            multiSelect: false,
+            columnDefs: [
+                {field: 'name', displayName: 'Name', enableCellEdit: true, editableCellTemplate: '<input type="checkbox">Hello, world</input>' },
+                {field:'age', displayName:'Age', enableCellEdit: true}
+            ]
+        };
+    });
+
+    app.run(['$templateCache', function ($templateCache) {
+        $templateCache.put('inlineeditor.html', buildUpTemplate(['simpleInlineEditorController', 'focusInlineEditorController', 'templateInlineEditorController']));
     }]);
 
     angular.bootstrap(document, ['ngGridDemoApp']);

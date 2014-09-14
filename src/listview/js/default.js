@@ -21,7 +21,16 @@ require(['angular'], function (angular) {
             },
             {
                 name: 'template',
-            }
+            },
+            {
+                name: 'datasource',
+            },
+            {
+                name: 'inlineeditor',
+            },
+            {
+                name: 'paginate',
+            },
         ];
 
         $scope.selectedTableControl = $scope.tableControls[0];
@@ -42,7 +51,7 @@ require(['angular'], function (angular) {
         };
 
         function navigate() {
-            $scope.demoUrl = $scope.selectedTableControl.url + '#' + $scope.selectedFeature.name;
+            $scope.demoUrl = $scope.selectedTableControl.url + '#/' + $scope.selectedFeature.name;
         };
 
         navigate();
