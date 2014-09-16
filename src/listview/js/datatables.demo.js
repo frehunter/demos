@@ -2,7 +2,7 @@
 
 window.name = "NG_DEFER_BOOTSTRAP!";
 
-require(['angular', 'ngRoute', 'ngTable'], function (angular) {
+require(['jQuery', 'angular', 'datatables', 'ngRoute'], function ($, angular) {
     function buildUpTemplate(controllers) {
         var stringBuilder = [];
 
@@ -21,7 +21,7 @@ require(['angular', 'ngRoute', 'ngTable'], function (angular) {
         {name: "Enos", age: 34}
     ];
 
-    var app = angular.module('ngTableDemoApp', ['ngRoute', 'ngTable']);
+    var app = angular.module('ngDataTablesDemoApp', ['ngRoute']);
 
     app.config(['$routeProvider', function($routeProvider) {
         $routeProvider
@@ -50,50 +50,51 @@ require(['angular', 'ngRoute', 'ngTable'], function (angular) {
     app.controller('containerController', function($scope) {
     });
 
-    app.controller('singleSelectionController', function($scope, $templateCache, ngTableParams) {
-        $templateCache.put('singleSelectionControllerTemplate.html', '<table ng-table="tableParams" class="table ng-table-responsive"><tr ng-repeat="user in $data" ng-click="changeSelection(user)" ng-class="{\'active\': user.$selected}"><td data-title="\'Name\'">{{user.name}}</td><td data-title="\'Age\'">{{user.age}}</td></tr></table>');
+    app.directive('ngDatatables', function() {
+        return {
+            link: function (scope, element, attr) {
+                var table;
+
+                scope.table = table = element.DataTable(scope.$eval(attr['ngDatatables']));
+                $.each(scope.testData, function (i, data) { table.row.add([data.name, data.age]).draw(); });
+            }
+        };
+    });
+
+    app.controller('singleSelectionController', function($scope, $templateCache) {
+        $templateCache.put('singleSelectionControllerTemplate.html', '<table ng-datatables="options" class="display" cellspacing="0" style="width: 400px"><thead><tr><th>Name</th><th>Age</th></tr></thead><tbody></table>');
         $scope.testData = JSON.parse(JSON.stringify(testData));
         $scope.title = 'Single selection';
-        $scope.changeSelection = function(user) {
+        $scope.options = {
+            paging: false,
+            searching: false,
+            info: false,
+        };
+        $scope.changeSelection = function(data) {
             for (var i in $scope.testData) {
                 $scope.testData[i].$selected = false;
             }
 
-            user.$selected = !user.$selected;
+            data.$selected = !data.$selected;
         };
-        $scope.tableParams = new ngTableParams({
-            page: 1,
-            count: $scope.testData.length,
-        }, {
-            total: $scope.testData.length,
-            counts: [],
-            getData: function($defer, params) {
-                $defer.resolve($scope.testData);
-            }
-        });
     });
 
     app.controller('multipleSelectionController', function($scope, $templateCache, ngTableParams) {
-        $templateCache.put('multipleSelectionControllerTemplate.html', '<table ng-table="tableParams" class="table ng-table-responsive"><tr ng-repeat="user in $data" ng-click="changeSelection(user)" ng-class="{\'active\': user.$selected}"><td data-title="\'Name\'">{{user.name}}</td><td data-title="\'Age\'">{{user.age}}</td></tr></table>');
+        $templateCache.put('singleSelectionControllerTemplate.html', '<table ng-datatables="options" class="display" cellspacing="0" style="width: 400px"><thead><tr><th>Name</th><th>Age</th></tr></thead><tbody></table>');
         $scope.testData = JSON.parse(JSON.stringify(testData));
         $scope.title = 'Multiple selection';
-        $scope.changeSelection = function(user) {
-            user.$selected = !user.$selected;
+        $scope.options = {
+            paging: false,
+            searching: false,
+            info: false,
         };
-        $scope.tableParams = new ngTableParams({
-            page: 1,
-            count: $scope.testData.length,
-        }, {
-            total: $scope.testData.length,
-            counts: [],
-            getData: function($defer, params) {
-                $defer.resolve($scope.testData);
-            }
-        });
+        $scope.changeSelection = function(data) {
+            data.$selected = !data.$selected;
+        };
     });
 
     app.controller('selectFirstRowSelectionController', function($scope, $templateCache, ngTableParams) {
-        $templateCache.put('selectFirstRowSelectionControllerTemplate.html', '<table ng-table="tableParams" class="table ng-table-responsive"><tr ng-repeat="user in $data" ng-click="changeSelection(user)" ng-class="{\'active\': user.$selected}"><td data-title="\'Name\'">{{user.name}}</td><td data-title="\'Age\'">{{user.age}}</td></tr></table>');
+        $templateCache.put('singleSelectionControllerTemplate.html', '<table ng-datatables="options" class="display" cellspacing="0" style="width: 400px"><thead><tr><th>Name</th><th>Age</th></tr></thead><tbody></table>');
         $scope.testData = JSON.parse(JSON.stringify(testData));
         $scope.title = 'Select first row';
         $scope.commands = [
@@ -104,23 +105,18 @@ require(['angular', 'ngRoute', 'ngTable'], function (angular) {
                 },
             },
         ];
-        $scope.changeSelection = function(user) {
+        $scope.options = {
+            paging: false,
+            searching: false,
+            info: false,
+        };
+        $scope.changeSelection = function(data) {
             for (var i in $scope.testData) {
                 $scope.testData[i].$selected = false;
             }
 
-            user.$selected = !user.$selected;
+            data.$selected = !data.$selected;
         };
-        $scope.tableParams = new ngTableParams({
-            page: 1,
-            count: $scope.testData.length,
-        }, {
-            total: $scope.testData.length,
-            counts: [],
-            getData: function($defer, params) {
-                $defer.resolve($scope.testData);
-            }
-        });
     });
 
     app.run(['$templateCache', function ($templateCache) {
@@ -231,6 +227,6 @@ require(['angular', 'ngRoute', 'ngTable'], function (angular) {
         $templateCache.put('inlineeditor.html', buildUpTemplate(['simpleInlineEditorController', 'focusInlineEditorController', 'templateInlineEditorController']));
     }]);
 
-    angular.bootstrap(document, ['ngTableDemoApp']);
+    angular.bootstrap(document, ['ngDataTablesDemoApp']);
 });
 
