@@ -23,6 +23,6 @@
     "angular-route": "~1.2.24",
     "angular-winjs": "~1.0.0",
     "bootstrap": "~3.2.0",
-    "require-css": "~0.1.5"
+    "require-css": "~0.1.5",
   }
 }

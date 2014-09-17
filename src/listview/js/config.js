@@ -9,27 +9,21 @@ require.config({
         ngTable: 'lib/ng-table/ng-table',
         angular: 'lib/angular/angular',
         ngRoute: 'lib/angular-route/angular-route',
-        datatables: 'lib/DataTables/jquery.dataTables',
         css: 'lib/require-css/css',
     },
     shim: {
-        jQuery: {
-            exports: 'jQuery',
-        },
         angular: {
+            deps: [],
             exports: 'angular',
         },
         ngRoute: {
             deps: ['angular'],
         },
         ngGrid: {
-            deps: ['jQuery', 'angular', 'css!lib/ng-grid/ng-grid.css'],
+            deps: ['jQuery', 'angular'],
         },
         ngTable: {
             deps: ['angular', 'css!lib/ng-table/ng-table.css'],
-        },
-        datatables: {
-            deps: ['jQuery', 'css!lib/DataTables/jquery.dataTables.css'],
         },
     }
 });

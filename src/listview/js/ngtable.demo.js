@@ -7,7 +7,7 @@ require(['angular', 'ngRoute', 'ngTable'], function (angular) {
         var stringBuilder = [];
 
         for (var i in controllers) {
-            stringBuilder.push('<div ng-controller="' + controllers[i] + '"><div><h1>{{title}}</h1></div><div><button ng-repeat="command in commands" ng-click="command.command()">{{command.name}}</button></div><div ng-include="\'' + controllers[i] + 'Template.html\'"></div></div>');
+            stringBuilder.push('<div ng-controller="' + controllers[i] + '"><div>{{title}}</div><div><button ng-repeat="command in commands" ng-click="command.command()">{{command.name}}</button></div><div ng-include="\'' + controllers[i] + 'Template.html\'"></div></div>');
         }
 
         return stringBuilder.join('\r');

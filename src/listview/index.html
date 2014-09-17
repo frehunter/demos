@@ -6,46 +6,21 @@
     <script src="js/config.js"></script>
     <link rel="stylesheet" type="text/css" href="js/lib/bootstrap/bootstrap.css"></link>
     <style>
-        .abs {
-            position: absolute;
-        }
-
-        .fullWidth {
-            width: 100%;
-        }
-
-        body {
-            left: 0px;
-            right: 0px;
-            top: 0px;
-            bottom: 0px;
-            position: absolute;
-            overflow: hidden;
-            padding: 0px;
-            margin: 0px;
-            border: 0px;
-        }
     </style>
 </head>
 <body ng-controller="listViewDemoController">
-    <div class="abs fullWidth">
-        <div class="container-fluid">
-            <div class="row" style="padding: 10px 0px; height: 100px;">
-                <div class="col-xs-1" ng-repeat="tableControl in tableControls">
-                    <button type="button" ng-click="selectTableControl(tableControl)" class="btn btn-lg" ng-class="{true: 'btn-primary', false: 'btn-success'}[!!tableControl.selected]">{{tableControl.name}}</button>
-                </div>
+    <div class="container-fluid">
+        <div class="row" style="padding: 10px 0px">
+            <div class="col-xs-1" ng-repeat="tableControl in tableControls">
+                <button type="button" ng-click="selectTableControl(tableControl)" class="btn btn-lg" ng-class="{true: 'btn-primary', false: 'btn-success'}[!!tableControl.selected]">{{tableControl.name}}</button>
             </div>
         </div>
-    </div>
-    <div class="abs fullWidth" style="top: 100px; bottom: 0px">
-        <div class="container-fluid" style="height: 100%">
-            <div class="row" style="height: 100%">
-                <div class="col-xs-2" style="height: 100%">
-                    <button ng-repeat="feature in features" ng-click="selectFeature(feature)" type="button" class="btn btn-block" ng-class="{true: 'btn-primary', false: 'btn-success'}[!!feature.selected]">{{feature.name}}</button>
-                </div>
-                <div class="col-xs-10" style="height: 100%">
-                    <iframe ng-src="{{demoUrl}}" style="width: 100%; height: 100%; border: 0px"></iframe>
-                </div>
+        <div class="row">
+            <div class="col-xs-2">
+                <button ng-repeat="feature in features" ng-click="selectFeature(feature)" type="button" class="btn btn-block" ng-class="{true: 'btn-primary', false: 'btn-success'}[!!feature.selected]">{{feature.name}}</button>
+            </div>
+            <div class="col-xs-10">
+                <iframe ng-src="{{demoUrl}}" style="width: 100%; height: 600px; border: 0px"></iframe>
             </div>
         </div>
     </div>

@@ -7,7 +7,7 @@ require(['angular', 'ngRoute', 'ngGrid'], function (angular) {
         var stringBuilder = [];
 
         for (var i in controllers) {
-            stringBuilder.push('<div ng-controller="' + controllers[i] + '"><div><h1>{{title}}</h1></div><div><button ng-repeat="command in commands" ng-click="command.command()">{{command.name}}</button></div><div class="gridStyle" ng-grid="gridOptions"></div></div>');
+            stringBuilder.push('<div ng-controller="' + controllers[i] + '"><div>{{title}}</div><div><button ng-repeat="command in commands" ng-click="command.command()">{{command.name}}</button></div><div class="gridStyle" ng-grid="gridOptions"></div></div>');
         }
 
         return stringBuilder.join('\r');
@@ -44,16 +44,6 @@ require(['angular', 'ngRoute', 'ngGrid'], function (angular) {
         {
             templateUrl: 'inlineeditor.html',
             controller: 'containerController'
-        })
-        .when('/filter',
-        {
-            templateUrl: 'filter.html',
-            controller: 'containerController'
-        })
-        .when('/column',
-        {
-            templateUrl: 'column.html',
-            controller: 'containerController'
         });
     }]);
 
@@ -89,25 +79,8 @@ require(['angular', 'ngRoute', 'ngGrid'], function (angular) {
         };
     });
 
-    app.controller('selectFirstRowSelectionController', function($scope) {
-        $scope.testData = testData;
-        $scope.title = 'Select first row';
-        $scope.commands = [
-            {
-                name: 'select first row',
-                command: function () {
-                    $scope.gridOptions.selectRow(0, true);
-                },
-            },
-        ];
-        $scope.gridOptions = {
-            data: 'testData',
-            multiSelect: false,
-        };
-    });
-
     app.run(['$templateCache', function ($templateCache) {
-        $templateCache.put('selection.html', buildUpTemplate(['singleSelectionController', 'multipleSelectionController', 'cellSelectionController', 'selectFirstRowSelectionController']));
+        $templateCache.put('selection.html', buildUpTemplate(['singleSelectionController', 'multipleSelectionController', 'cellSelectionController']));
     }]);
 
     app.controller('cellTemplateController', function($scope) {
@@ -212,74 +185,6 @@ require(['angular', 'ngRoute', 'ngGrid'], function (angular) {
 
     app.run(['$templateCache', function ($templateCache) {
         $templateCache.put('inlineeditor.html', buildUpTemplate(['simpleInlineEditorController', 'focusInlineEditorController', 'templateInlineEditorController']));
-    }]);
-
-    app.controller('filterController', function($scope) {
-        $scope.testData = testData;
-        $scope.title = 'built-in filter';
-        $scope.gridOptions = {
-            data: 'testData',
-            multiSelect: false,
-            filterOptions: {
-                filterText: '',
-                useExternalFilter: false,
-            },
-            enableFiltering: true,
-            columnDefs: [
-                {field: 'name', displayName: 'Name'},
-                {field:'age', displayName:'Age'}
-            ]
-        };
-    });
-
-    app.run(['$templateCache', function ($templateCache) {
-        $templateCache.put('filter.html', buildUpTemplate(['filterController']));
-    }]);
-
-    app.controller('sortController', function($scope) {
-        $scope.testData = testData;
-        $scope.title = 'sort';
-        $scope.gridOptions = {
-            data: 'testData',
-            multiSelect: false,
-            enableSorting: true,
-            columnDefs: [
-                {field: 'name', displayName: 'Name'},
-                {field:'age', displayName:'Age'}
-            ]
-        };
-    });
-
-    app.controller('resizeController', function($scope) {
-        $scope.testData = testData;
-        $scope.title = 'resize';
-        $scope.gridOptions = {
-            data: 'testData',
-            multiSelect: false,
-            enableColumnResize: true,
-            columnDefs: [
-                {field: 'name', displayName: 'Name'},
-                {field:'age', displayName:'Age'}
-            ]
-        };
-    });
-
-    app.controller('reorderController', function($scope) {
-        $scope.testData = testData;
-        $scope.title = 'reorder';
-        $scope.gridOptions = {
-            data: 'testData',
-            multiSelect: false,
-            enableColumnReordering: true,
-            columnDefs: [
-                {field: 'name', displayName: 'Name'},
-                {field:'age', displayName:'Age'}
-            ]
-        };
-    });
-
-    app.run(['$templateCache', function ($templateCache) {
-        $templateCache.put('column.html', buildUpTemplate(['sortController', 'resizeController', 'reorderController']));
     }]);
 
     angular.bootstrap(document, ['ngGridDemoApp']);

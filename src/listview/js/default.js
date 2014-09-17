@@ -16,10 +16,6 @@ require(['angular'], function (angular) {
                 name: 'ng-table',
                 url: 'ngtable.html',
             },
-            {
-                name: 'datatables',
-                url: 'datatables.html',
-            },
         ];
 
         $scope.features = [
@@ -38,12 +34,6 @@ require(['angular'], function (angular) {
             },
             {
                 name: 'paginate',
-            },
-            {
-                name: 'filter',
-            },
-            {
-                name: 'column',
             },
         ];
 
